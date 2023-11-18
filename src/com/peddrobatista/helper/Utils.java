@@ -14,6 +14,14 @@ public class Utils {
         return Utils.sdf.format(data);
     }
 
+    public static Date stringParaData(String data) {
+        try {
+            return Utils.sdf.parse(data);
+        }catch (ParseException e) {
+            return null;
+        }
+    }
+
     public static String doubleParaString(Double valor) {
         return Utils.nf.format(valor);
     }

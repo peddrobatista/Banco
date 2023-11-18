@@ -52,6 +52,7 @@ public class Conta {
 
     public void setLimite(Double limite) {
         this.limite = limite;
+        this.atualizaSaldoTotal();
     }
 
     public Double getSaldoTotal() {
@@ -79,6 +80,42 @@ public class Conta {
     }
 
     public void sacar(Double valor) {
+        if (valor > 0 && this.getSaldoTotal() >= valor) {
+            if (this.getSaldo() >= valor) {
+                this.saldo = this.getSaldo() - valor;
+                this.atualizaSaldoTotal();
+                System.out.println("Saque efetuado com sucesso!");
+            } else {
+                Double restante = this.getSaldo() - valor;
+                this.limite = this.getLimite() + restante;
+                this.saldo = 0.0;
+                this.atualizaSaldoTotal();
+                System.out.println("Saque efetuado com sucesso!");
+            }
+        } else {
+            System.out.println("Saque não realizado. Tente novamente!");
+        }
+    }
 
+    public void transferir(Conta destino, Double valor) {
+        if (valor > 0 && this.getSaldoTotal() >= valor) {
+            if (this.getSaldo() >= valor) {
+                this.saldo = this.getSaldo() - valor;
+                destino.saldo = destino.getSaldo() + valor;
+                this.atualizaSaldoTotal();
+                destino.atualizaSaldoTotal();
+                System.out.println("Transferência realizada com sucesso!");
+            } else {
+                Double restante = this.getSaldo() - valor;
+                this.limite = this.getLimite() + restante;
+                this.saldo = 0.0;
+                destino.saldo = destino.getSaldo() + valor;
+                this.atualizaSaldoTotal();
+                destino.atualizaSaldoTotal();
+                System.out.println("Transferência realizada com sucesso!");
+            }
+        } else {
+            System.out.println("Transferência não realizada! Tente novamente!");
+        }
     }
 }
